@@ -1,19 +1,28 @@
 require './db.rb'
 
-
-
 db = DB.new
 
-#db.add_clause!(Clause.new(Relation.new(:likes, [:kissa, :hotaru])))
-#db.add_clause!(Clause.new(Relation.new(:likes, [:koira, :kissa])))
-#db.add_clause!(Clause.new(Relation.new(:likes, [:orava, :kissa])))
-#db.add_clause!(Clause.new(Relation.new(:likes, [:hotaru, :X]), [Relation.new(:likes, [:X, :kissa])]))
-
 db.define do |p|
-    p.likes(:kissa, :hotaru)
-    p.likes(:koira, :kissa)
-    p.likes(:orava, :kissa)
-    p.likes(:hotaru, :X) <= [p.likes(:X, :kissa)]
+    p.mom_of(:alice, :carol)
+    p.dad_of(:bob, :carol)
+    p.mom_of(:alice, :david)
+    p.dad_of(:bob, :david)
+    p.mom_of(:eve, :grace)
+    p.dad_of(:frank, :grace)
+    
+    p.older_than(:carol, :david)
+    
+    p.parent_of(:X, :Y) <= [p.mom_of(:X, :Y)]
+    p.parent_of(:X, :Y) <= [p.dad_of(:X, :Y)]
+    
+    p.sibling_of(:X, :Y) <= [p.parent_of(:Z, :Y), p.parent_of(:Z, :X)]
 end
-#print(db.inspect)
-print(db.query { |q| q.likes(:hotaru, :Y) }.to_a)
+
+# Query the older child of alice as X and the younger child as Y
+result = db.query do |q|
+    q.mom_of(:alice, :X)
+    q.sibling_of(:X, :Y)
+    q.older_than(:X, :Y)
+end
+
+print(result.to_a)
