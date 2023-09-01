@@ -1,6 +1,6 @@
 # Introduction
 
-This is a small Prolog DSL for Ruby. The Prolog implementation here is based on the one presented in (Paradigms of AI Programming)[https://github.com/norvig/paip-lisp/blob/main/docs/chapter11.md] by Peter Norvig.
+This is a rudimentary Prolog DSL for Ruby. The Prolog implementation here is based on the one presented in [Paradigms of AI Programming](https://github.com/norvig/paip-lisp/blob/main/docs/chapter11.md) by Peter Norvig.
 
 # Example usage
 
@@ -45,7 +45,7 @@ Features:
 * Query returns an `Enumerator`, results are calculated one-by-one on demand, rather than all at once in a batch
 
 Missing features:
-* Cut operator (hence the duplicate solutions)
+* Cut operator (duplicate solutions could be fixed with this)
 * Primitives
 * In fact, any pre-defined predicates
 * Unit tests
